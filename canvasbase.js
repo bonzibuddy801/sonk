@@ -24,7 +24,7 @@ window.requestAnimFrame = (function(){
 	    return { type: type, data: data };
 	},
 	clear: function() { this.events = []; },
-	drawRect: function(x, y, width, height) { var args = [x, y, width, height]; events[events.length] = QueuedEvent("drawRect",args); },
+	drawRect: function(x, y, width, height) { var args = [x, y, width, height]; events[events.length] = QueuedEvent("drawRect",args); console.log(events); },
 	fillRect: function(x, y, width, height) { var args = [x, y, width, height]; events[events.length] = QueuedEvent("fillRect",args); }
     };
     var events = new Array();
@@ -42,7 +42,6 @@ window.requestAnimFrame = (function(){
 
     function callEvent(e)
     {
-
 	var args = e.data;
 	if(e.type == "drawRect") { ctx.rect(args[0], args[1], args[2], args[3]); }
 	if(e.type == "fillRect") { ctx.fillRect(args[0], args[1], args[2], args[3]); }  
