@@ -13,12 +13,14 @@
 
     ext.t = function() { return true; }
     ext.f = function() { return false; }
+    ext.evaluate = function(val) { return (val == "true"); }
 
     // Block and block menu descriptions
     var descriptor = {
         blocks: [
 	    ['b', 'true', 't'],
-	    ['r', 'false', 'f'],
+	    ['b', 'false', 'f'],
+	    ['b', '%s', 'evaluate', 'false'],
         ]
     };
 
