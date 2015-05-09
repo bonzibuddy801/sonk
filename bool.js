@@ -23,7 +23,7 @@
     ext.lteq = function(val1, val2) { return val1 <= val2; }
     ext.gteq = function(val1, val2) { return val1 >= val2; }
 
-    ext.evalAsNum = function(val) { if(val == "true") { return 1; } else { return 0; } }
+    ext.evalAsNum = function(val) { console.log(val); return val ? 1 : 0; }
 
     // Block and block menu descriptions
     var descriptor = {
