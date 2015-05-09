@@ -1,4 +1,4 @@
-//Authored by TheMonsterFromTheDeep
+﻿//Authored by TheMonsterFromTheDeep
 //Extension for Scratch 2.0 by LLK @ MIT
 //Adds extended boolean functionality
 (function(ext) {
@@ -20,6 +20,9 @@
     ext.evaland = function(val1, val2) { return conv(val1) && conv(val2); }
     ext.evalor = function(val1, val2) { return conv(val1) || conv(val2); }
 
+    ext.lteq = function(val1, val2) { return val1 <= val2; }
+    ext.gteq = function(val1, val2) { return val1 >= val2; }
+
     // Block and block menu descriptions
     var descriptor = {
         blocks: [
@@ -29,6 +32,8 @@
 	    ['b', 'not %s', 'evalnot', 'false'],
 	    ['b', '%s and %s', 'evaland', 'false', 'false'],
 	    ['b', '%s or %s', 'evalor', 'false', 'false'],
+	    ['b', '%s ≤ %s', 'lteq'],
+	    ['b', '%s ≥ %s', 'gteq'],
         ]
     };
 
