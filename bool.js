@@ -19,7 +19,7 @@
     // Block and block menu descriptions
     var descriptor = {
         blocks: [
-	    ['b', 'convert %s to bool', 'boolval', 'false'],
+	    ['r', 'convert %s to bool', 'boolval', 'false'],
         ]
     };
 
