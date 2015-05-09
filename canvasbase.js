@@ -24,8 +24,8 @@ window.requestAnimFrame = (function(){
 	    return { type: type, data: data };
 	},
 	clear: function() { this.events = []; },
-	drawRect: function(x, y, width, height) { var args = [x, y, width, height]; events[events.length] = QueuedEvent("drawRect",args); console.log(events); },
-	fillRect: function(x, y, width, height) { var args = [x, y, width, height]; events[events.length] = QueuedEvent("fillRect",args); }
+	drawRect: function(x, y, width, height) { var args = [x, y, width, height]; events[events.length] = QueuedEvent("drawRect",args); },
+	fillRect: function(x, y, width, height) { var args = [x, y, width, height]; events[events.length] = QueuedEvent("fillRect",args); console.log(events); }
     };
     console.log(pane);
 
