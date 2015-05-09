@@ -11,15 +11,14 @@
         return {status: 2, msg: 'Ready'};
     };
 
-    ext.boolval = function(var) {
-        if((var == "true") || (var == "1")) { return true; }
-	else { return false; }
-    }
+    ext.t = function(var) { return true; }
+    ext.f = function(var) { return false; }
 
     // Block and block menu descriptions
     var descriptor = {
         blocks: [
-	    ['r', 'convert %s to bool', 'boolval', 'false'],
+	    ['r', 'true', 't'],
+	    ['r', 'false', 'f'],
         ]
     };
 
