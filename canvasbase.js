@@ -23,7 +23,7 @@ window.requestAnimFrame = (function(){
 	{
 	    return { type: type, data: data };
 	},
-	clear: function() { this.events = []; }
+	clear: function() { this.events = []; },
 	drawRect: function(x, y, width, height) { var args = [x, y, width, height]; events[events.length] = QueuedEvent("drawRect",args); },
 	fillRect: function(x, y, width, height) { var args = [x, y, width, height]; events[events.length] = QueuedEvent("fillRect",args); }
     };
