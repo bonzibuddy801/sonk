@@ -50,7 +50,7 @@ window.requestAnimFrame = (function(){
 
     function renderCanvas()
     {
-	for(int i = 0; i < pane.events.length; i++)
+	for(var i = 0; i < pane.events.length; i++)
 	{
 	    callEvent(pane.events[i]);
 	}
