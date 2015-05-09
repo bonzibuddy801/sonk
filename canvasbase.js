@@ -66,14 +66,17 @@ window.requestAnimFrame = (function(){
         return {status: 2, msg: 'Ready'};
     };
 
+    ext.fillRect = function(x, y, width, height) { pane.fillRect(x, y, width, height); }
+
     // Block and block menu descriptions
     var descriptor = {
         blocks: [
+	    [' ', 'fill rectangle at %n, %n with %n, %n', 'fillRect', '-10', '-10', '20', '20'],
         ]
     };
 
     // Register the extension
-    ScratchExtensions.register('Sample extension', descriptor, ext);
+    ScratchExtensions.register('canvas base', descriptor, ext);
     generateCanvas();
     requestAnimFrame(renderCanvas);
 })({});
