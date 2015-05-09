@@ -25,9 +25,12 @@
 
     ext.evalAsNum = function(val) { return val ? 1 : 0; }
 
+    ext.exists = function() { return true; }
+
     // Block and block menu descriptions
     var descriptor = {
         blocks: [
+	    ['b', 'extended booleans installed?' 'exists'],
 	    ['b', 'true', 't'],
 	    ['b', 'false', 'f'],
 	    ['b', '%s', 'evaluate', 'false'],
