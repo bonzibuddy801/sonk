@@ -11,14 +11,14 @@
         return {status: 2, msg: 'Ready'};
     };
 
-    ext.t = function(var) {  }
-    ext.f = function(var) {  }
+    ext.t = function() { return true; }
+    ext.f = function() { return false; }
 
     // Block and block menu descriptions
     var descriptor = {
         blocks: [
-	    [' ', 'true', 't', ''],
-	    [' ', 'false', 'f', ''],
+	    ['r', 'true', 't'],
+	    ['r', 'false', 'f'],
         ]
     };
 
