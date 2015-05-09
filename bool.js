@@ -30,7 +30,7 @@
     // Block and block menu descriptions
     var descriptor = {
         blocks: [
-	    ['b', 'extended booleans installed?' 'exists'],
+	    ['b', 'extended booleans installed?', 'exists'],
 	    ['b', 'true', 't'],
 	    ['b', 'false', 'f'],
 	    ['b', '%s', 'evaluate', 'false'],
