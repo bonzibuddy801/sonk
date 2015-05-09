@@ -16,12 +16,14 @@
     ext.t = function() { return true; }
     ext.f = function() { return false; }
     ext.evaluate = function(val) { return conv(val); }
-    ext.evalnot = function(val) { return !conv(val); }
-    ext.evaland = function(val1, val2) { return conv(val1) && conv(val2); }
-    ext.evalor = function(val1, val2) { return conv(val1) || conv(val2); }
+    ext.evalNot = function(val) { return !conv(val); }
+    ext.evalAnd = function(val1, val2) { return conv(val1) && conv(val2); }
+    ext.evalOr = function(val1, val2) { return conv(val1) || conv(val2); }
 
     ext.lteq = function(val1, val2) { return val1 <= val2; }
     ext.gteq = function(val1, val2) { return val1 >= val2; }
+
+    ext.evalAsNum = function(val) { return (val == "true") ? 1 : 0; }
 
     // Block and block menu descriptions
     var descriptor = {
@@ -29,11 +31,12 @@
 	    ['b', 'true', 't'],
 	    ['b', 'false', 'f'],
 	    ['b', '%s', 'evaluate', 'false'],
-	    ['b', 'not %s', 'evalnot', 'false'],
-	    ['b', '%s and %s', 'evaland', 'false', 'false'],
-	    ['b', '%s or %s', 'evalor', 'false', 'false'],
+	    ['b', 'not %s', 'evalNot', 'false'],
+	    ['b', '%s and %s', 'evalAnd', 'false', 'false'],
+	    ['b', '%s or %s', 'evalOr', 'false', 'false'],
 	    ['b', '%s ≤ %s', 'lteq'],
 	    ['b', '%s ≥ %s', 'gteq'],
+	    ['r', '%b', 'evalAsNum'],
         ]
     };
 
