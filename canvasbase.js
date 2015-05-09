@@ -25,7 +25,7 @@ window.requestAnimFrame = (function(){
 	},
 	clear: function() { this.events = []; },
 	drawRect: function(x, y, width, height) { var args = [x, y, width, height]; events[events.length] = QueuedEvent("drawRect",args); },
-	fillRect: function(x, y, width, height) { console.log("working..."); var args = [x, y, width, height]; console.log(args); console.log(events); events[events.length] = "hello"; console.log(events); }
+	fillRect: function(x, y, width, height) { console.log("working..."); var args = [x, y, width, height]; console.log(args); console.log(this.events); this.events[this.events.length] = "hello"; console.log(this.events); }
     };
     console.log(pane);
 
