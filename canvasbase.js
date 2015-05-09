@@ -25,7 +25,7 @@ window.requestAnimFrame = (function(){
 	},
 	clear: function() { this.events = []; },
 	drawRect: function(x, y, width, height) { var args = [x, y, width, height]; events[events.length] = QueuedEvent("drawRect",args); },
-	fillRect: function(x, y, width, height) { var args = [x, y, width, height]; events[events.length] = QueuedEvent("fillRect",args); console.log(events); }
+	fillRect: function(x, y, width, height) { console.log("working..."); var args = [x, y, width, height]; events[events.length] = QueuedEvent("fillRect",args); console.log(this.events); }
     };
     console.log(pane);
 
@@ -65,7 +65,7 @@ window.requestAnimFrame = (function(){
         return {status: 2, msg: 'Ready'};
     };
 
-    ext.fillRect = function(x, y, width, height) { pane.fillRect(x, y, width, height); }
+    ext.fillRect = function(x, y, width, height) { console.log("fillrect block was called!"); pane.fillRect(x, y, width, height); }
 
     // Block and block menu descriptions
     var descriptor = {
