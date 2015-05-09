@@ -27,7 +27,7 @@ window.requestAnimFrame = (function(){
 	drawRect: function(x, y, width, height) { var args = [x, y, width, height]; events[events.length] = QueuedEvent("drawRect",args); console.log(events); },
 	fillRect: function(x, y, width, height) { var args = [x, y, width, height]; events[events.length] = QueuedEvent("fillRect",args); }
     };
-    var events = new Array();
+    console.log(pane);
 
     function generateCanvas()
     {
