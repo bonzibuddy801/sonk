@@ -24,8 +24,8 @@ window.requestAnimFrame = (function(){
 	    return { type: type, data: data };
 	},
 	clear: function() { this.events = []; },
-	drawRect: function(x, y, width, height) { var args = [x, y, width, height]; events[events.length] = QueuedEvent("drawRect",args); },
-	fillRect: function(x, y, width, height) { console.log("working..."); var args = [x, y, width, height]; this.events[this.events.length] = this.QueuedEvent("fillRect", args); console.log(this.events); }
+	drawRect: function(x, y, width, height) { var args = [x, y, width, height]; this.events[this.events.length] = this.QueuedEvent("drawRect",args); },
+	fillRect: function(x, y, width, height) { var args = [x, y, width, height]; this.events[this.events.length] = this.QueuedEvent("fillRect", args); }
     };
     console.log(pane);
 
@@ -49,6 +49,7 @@ window.requestAnimFrame = (function(){
 
     function renderCanvas()
     {
+	console.log("rendering...");
 	for(var i = 0; i < pane.events.length; i++)
 	{
 	    callEvent(pane.events[i]);
@@ -65,7 +66,7 @@ window.requestAnimFrame = (function(){
         return {status: 2, msg: 'Ready'};
     };
 
-    ext.fillRect = function(x, y, width, height) { console.log("fillrect block was called!"); pane.fillRect(x, y, width, height); }
+    ext.fillRect = function(x, y, width, height) { pane.fillRect(x, y, width, height); }
 
     // Block and block menu descriptions
     var descriptor = {
