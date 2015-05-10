@@ -33,12 +33,13 @@ window.requestAnimFrame = (function(){
     {
 	var c = document.createElement("canvas");
 	c.setAttribute("style", "position: absolute; top: 72px; left: 6px; width: 100%; height: 100%; z-index: 2; background-color: rgba(0, 0, 0, 0); border: solid black 1px;");
-	c.setAttribute("width", "100%");
-	c.setAttribute("height", "100%");
-	document.body.appendChild(c);
-	//var back = document.createElement("div");
-	//back.setAttribute("style", "position: absolute; top: 72px; left: 6px; width: 480px; height: 360px; z-index: -10; background-color: #ffffff;");
-	//document.body.appendChild(back);
+	c.setAttribute("width", "480");
+	c.setAttribute("height", "360");
+
+	var container = document.createElement("div");
+	container.appendChild(c);
+	container.appendChild(document.getElementById("scratch"));
+	document.body.appendChild(container);
 	var restyle = document.createElement("style");
 	restyle.appendChild(document.createTextNode("#scratch { z-index: 0; !important }"));
 	document.head.appendChild(restyle);
