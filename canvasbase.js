@@ -36,6 +36,9 @@ window.requestAnimFrame = (function(){
 	c.setAttribute("width", "480");
 	c.setAttribute("height", "360");
 	document.body.appendChild(c);
+	var back = document.createElement("div");
+	back.setAttribute("style", "position: absolute; top: 72px; left: 6px; width: 480px; height: 360px; z-index: -10; background-color: #ffffff;");
+	document.body.appendChild(back);
 	var restyle = document.createElement("style");
 	restyle.appendChild(document.createTextNode("#scratch { z-index: 0; !important }"));
 	document.head.appendChild(restyle);
