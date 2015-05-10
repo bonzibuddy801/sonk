@@ -85,4 +85,5 @@ var descriptor = {blocks: []}; ScratchExtensions.register('MFD Complete Extensio
 
 	ScratchExtensions.register(extName, descriptor, ext); //All the titles begin with "MFD:" in case other extensions with similar names are also used
 	MFD.loadExtension(extName);
+	generateExtraCSS();
 })({});
