@@ -46,10 +46,12 @@ var descriptor = {blocks: []}; ScratchExtensions.register('MFD Complete Extensio
 
 	var confirmWindowOpen = false;
 
+	var myCSS="#scratch { z-index: 0; } #MFDConfirmationContainer { position: absolute; top: 0px; left: 0px; z-index: 2; } #MFDConfirmationWindow { width: 600px; padding: 6px 20px; background-color: #fff; border: solid #fff 1px; border-radius: 10px; -moz-border-radius: 10px; -webkit-border-radius: 10px; margin: 10px auto 0 auto; }";
+
 	function generateExtraCSS()
 	{
 		var s = document.createElement("style");
-		s.appendChild(document.createTextNode("#MFDConfimationContainer { position: absolute; top: 50%; left: 50%; }#MFDConfirmationWindow {position: relative;top: -50%;left: -50%;background-color: #fff;border: none 0px;border-radius: 10px;padding: 6px 20px;}"));
+		s.appendChild(document.createTextNode(myCSS));
 		document.head.appendChild(s);
 	}
 	
