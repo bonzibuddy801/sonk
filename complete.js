@@ -50,15 +50,7 @@ var descriptor = {blocks: []}; ScratchExtensions.register('MFD Complete Extensio
 	{
 		var s = document.createElement("style");
 		s.appendChild(document.createTextNode
-		("#MFDConfirmationWindow {
-			position: absolute;
-			top: 45%;
-			left: 45%;
-			background-color: #fff;
-			border: none 0px;
-			border-radius: 10px;
-			padding: 6px 20px;
-		}");
+		("#MFDConfirmationWindow {position: absolute;top: 45%;left: 45%;background-color: #fff;border: none 0px;border-radius: 10px;padding: 6px 20px;}");
 		document.head.appendChild(s);
 	}
 	
