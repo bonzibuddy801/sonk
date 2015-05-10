@@ -32,7 +32,7 @@ window.requestAnimFrame = (function(){
     function generateCanvas()
     {
 	var c = document.createElement("canvas");
-	c.setAttribute("style", "position: absolute; top: 72px; left: 6px; width: 480px; height: 360px; z-index: 1000; background-color: #ffffff;");
+	c.setAttribute("style", "position: absolute; top: 72px; left: 6px; width: 480px; height: 360px; z-index: 1000; background-color: #00ffffff;");
 	c.setAttribute("width", "480");
 	c.setAttribute("height", "360");
 	document.body.appendChild(c);
@@ -54,7 +54,12 @@ window.requestAnimFrame = (function(){
 	{
 	    callEvent(pane.events[i]);
 	}
-	requestAnimFrame(renderCanvas);
+	requestAnimFrame(renderLoop);
+    }
+
+    function renderLoop()
+    {
+	renderCanvas();
     }
 
     // Cleanup function when the extension is unloaded
@@ -78,5 +83,5 @@ window.requestAnimFrame = (function(){
     // Register the extension
     ScratchExtensions.register('canvas base', descriptor, ext);
     generateCanvas();
-    requestAnimFrame(renderCanvas);
+    requestAnimFrame(renderLoop);
 })({});
