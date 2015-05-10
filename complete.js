@@ -43,12 +43,54 @@ var descriptor = {blocks: []}; ScratchExtensions.register('MFD Complete Extensio
 	var extName = 'MFD: Internetting';
 	ext._shutdown = function() { MFD.unloadExtension(extName); };
 	ext._getStatus = function() { return {status: 2, msg: 'Ready'}; };
+
+	var confirmWindowOpen = false;
+
+	function generateExtraCSS()
+	{
+		var s = document.createElement("style");
+		s.appendChild(document.createTextNode
+		("
+		#MFDConfirmationWindow {
+			position: absolute;
+			top: 45%;
+			left: 45%;
+			background-color: #fff;
+			border: none 0px;
+			border-radius: 10px;
+			padding: 6px 20px;
+		}
+		");
+		document.head.appendChild(s);
+	}
 	
-	ext.testBlock = function() { return 0; }
+	function generateConfirmWindow(id)
+	{if(!confirmWindowOpen){
+	
+		var projectURL = "https://scratch.mit.edu/projects/" + id;
+		var imgURL = "https://cdn2.scratch.mit.edu/get_image/project/" + id + "_480x360.png";
+		var w = document.createElement("div"); //Create the window
+		w.setAttribute("id", "MFDConfirmationWindow");
+
+		var image = document.createElement("img"); //Create a preview image of the project
+		image.setAttribute("src", imgURL);
+		w.appendChild(image);
+
+		var link = document.createElement("a");
+		link.setAttribute("href", projectURL);
+		w.appendChild(link);
+
+		document.body.appendChild(w);
+	}}
+
+	ext.openProject(url)
+	{
+		generateConfirmWindow(url);
+	}
 
 	var descriptor = {
 		blocks: [
-			['r', 'test', 'testBlock'],
+			[' ', 'open project id %n', 'openProject'],
 		]
 	}; 
 
