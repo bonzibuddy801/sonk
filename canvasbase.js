@@ -32,7 +32,7 @@ window.requestAnimFrame = (function(){
     function generateCanvas()
     {
 	var c = document.createElement("canvas");
-	c.setAttribute("style", "position: absolute; top: 72px; left: 6px; width: 480px; height: 360px; z-index: 10; background-color: rgba(0, 0, 0, 0);");
+	c.setAttribute("style", "position: absolute; top: 72px; left: 6px; width: 480px; height: 360px; z-index: 10; background-color: rgba(0, 0, 0, 0); border: solid black 1px;");
 	c.setAttribute("width", "480");
 	c.setAttribute("height", "360");
 	document.body.appendChild(c);
