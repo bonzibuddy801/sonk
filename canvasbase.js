@@ -38,7 +38,7 @@ window.requestAnimFrame = (function(){
 	document.body.appendChild(c);
 	var back = document.createElement("div");
 	back.setAttribute("style", "position:absolute; top: 72px; left: 6px; width: 480px; height: 360px; z-index: -1000; background-color: #ffffff;");
-	document.body.appendChild(c);
+	document.body.appendChild(back);
 	canvas = c;
 	ctx = canvas.getContext("2d");
     }
