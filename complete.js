@@ -26,7 +26,7 @@ var MFD =
 	},
 	loadExtension: function(name) { this.loadedExtensions[this.loadedExtensions.length] = name; this.updateMessage(); },
 	unloadExtension: function(name) { for(var i = 0; i < this.loadedExtensions.length; i++) { if(this.loadedExtensions[i] == name) { this.loadedExtensions[i] = "unloaded"; } } this.updateMessage(); }
-}
+};
 
 (function(ext) { ext._shutdown = function() {};
 ext._getStatus = function() { return {status: 1, msg: MFD.extMessage}; }; //This extension is essentially a blank extension built in order to provide the text seperator
