@@ -38,6 +38,7 @@ window.requestAnimFrame = (function(){
 	document.body.appendChild(c);
 	canvas = c;
 	ctx = canvas.getContext("2d");
+	console.log(ctx);
     }
 
     function callEvent(e)
