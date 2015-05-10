@@ -29,7 +29,7 @@ var MFD =
 };
 
 (function(ext) { ext._shutdown = function() {};
-ext._getStatus = function() { return {status: 1, msg: MFD.extMessage}; }; //This extension is essentially a blank extension built in order to provide the text seperator
+ext._getStatus = function() { return {status: 1, msg: MFD.message }; }; //This extension is essentially a blank extension built in order to provide the text seperator
 var descriptor = {blocks: []}; ScratchExtensions.register('MFD Complete Extension', descriptor, ext); })({});
 
 
