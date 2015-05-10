@@ -49,7 +49,7 @@ var descriptor = {blocks: []}; ScratchExtensions.register('MFD Complete Extensio
 	function generateExtraCSS()
 	{
 		var s = document.createElement("style");
-		s.appendChild(document.createTextNode("#MFDConfirmationWindow {position: absolute;top: 45%;left: 45%;background-color: #fff;border: none 0px;border-radius: 10px;padding: 6px 20px;}"));
+		s.appendChild(document.createTextNode("#MFDConfimationContainer { position: absolute; top: 50%; left: 50%; }#MFDConfirmationWindow {position: relative;top: -50%;left: -50%;background-color: #fff;border: none 0px;border-radius: 10px;padding: 6px 20px;}"));
 		document.head.appendChild(s);
 	}
 	
@@ -58,6 +58,11 @@ var descriptor = {blocks: []}; ScratchExtensions.register('MFD Complete Extensio
 	
 		var projectURL = "https://scratch.mit.edu/projects/" + id;
 		var imgURL = "https://cdn2.scratch.mit.edu/get_image/project/" + id + "_480x360.png";
+		
+		var con = document.createElement("div");
+		con.setAttribute("id", "MFDConfirmationContainer");
+		document.body.appendChild(con);
+
 		var w = document.createElement("div"); //Create the window
 		w.setAttribute("id", "MFDConfirmationWindow");
 
@@ -69,7 +74,7 @@ var descriptor = {blocks: []}; ScratchExtensions.register('MFD Complete Extensio
 		link.setAttribute("href", projectURL);
 		w.appendChild(link);
 
-		document.body.appendChild(w);
+		con.appendChild(w);
 	}}
 
 	ext.openProject = function(id)
@@ -79,7 +84,7 @@ var descriptor = {blocks: []}; ScratchExtensions.register('MFD Complete Extensio
 
 	var descriptor = {
 		blocks: [
-			[' ', 'open project id %n', 'openProject'],
+			[' ', 'open project id %n', 'openProject', '41391442'], //The default number will eventually point to a project about this extension
 		]
 	}; 
 
