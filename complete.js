@@ -5,8 +5,10 @@ var MFD =
 {
 	loadedExtensions: [],
 	message: "No loaded extensions",
+	status: 0,
 	updateMessage: function() { 
 		var newMsg = "No loaded extensions";
+		this.status = 0;
 		var empty = true; 
 		for (var i = 0; i < this.loadedExtensions.length; i++) { 
 			if(this.loadedExtensions[i] != "unloaded")
@@ -15,6 +17,7 @@ var MFD =
 				{
 					empty = false;
 					newMsg = "Loaded extensions: " + this.loadedExtensions[i];
+					this.status = 2; 
 				}
 				else
 				{
@@ -29,7 +32,7 @@ var MFD =
 };
 
 (function(ext) { ext._shutdown = function() {};
-ext._getStatus = function() { return {status: 1, msg: MFD.message }; }; //This extension is essentially a blank extension built in order to provide the text seperator
+ext._getStatus = function() { return {status: MFD.status, msg: MFD.message }; }; //This extension is essentially a blank extension built in order to provide the text seperator
 var descriptor = {blocks: []}; ScratchExtensions.register('MFD Complete Extension', descriptor, ext); })({});
 
 
