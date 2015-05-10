@@ -24,8 +24,8 @@ window.requestAnimFrame = (function(){
 	    return { type: type, data: data };
 	},
 	clear: function() { this.events = []; },
-	drawRect: function(x, y, width, height) { var args = [x, y, width, height]; this.events[this.events.length] = this.QueuedEvent("drawRect",args); },
-	fillRect: function(x, y, width, height) { var args = [x, y, width, height]; this.events[this.events.length] = this.QueuedEvent("fillRect", args); }
+	drawRect: function(x, y, width, height) { var args = [x + 240, y + 180, width, height]; this.events[this.events.length] = this.QueuedEvent("drawRect",args); },
+	fillRect: function(x, y, width, height) { var args = [x + 240, y + 180, width, height]; this.events[this.events.length] = this.QueuedEvent("fillRect", args); }
     };
     console.log(pane);
 
@@ -43,13 +43,13 @@ window.requestAnimFrame = (function(){
     function callEvent(e)
     {
 	var args = e.data;
+	console.log(args);
 	if(e.type == "drawRect") { ctx.rect(args[0], args[1], args[2], args[3]); }
 	if(e.type == "fillRect") { ctx.fillRect(args[0], args[1], args[2], args[3]); }  
     }
 
     function renderCanvas()
     {
-	console.log("rendering...");
 	for(var i = 0; i < pane.events.length; i++)
 	{
 	    callEvent(pane.events[i]);
