@@ -72,7 +72,7 @@ var descriptor = {blocks: []}; ScratchExtensions.register('MFD Complete Extensio
 		document.body.appendChild(w);
 	}}
 
-	ext.openProject(id)
+	ext.openProject = function(id)
 	{
 		generateConfirmWindow(id);
 	}
