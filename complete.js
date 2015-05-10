@@ -38,7 +38,7 @@ var descriptor = {blocks: []}; ScratchExtensions.register('MFD Complete Extensio
 //Includes functions for HTTP requests & linking to other projects
 (function(ext) { 
 	var extName = 'MFD: Internetting';
-	ext._shutdown = function() { };
+	ext._shutdown = function() { MFD.unloadExtension(extName); };
 	ext._getStatus = function() { return {status: 2, msg: 'Ready'}; };
 	
 	ext.testBlock = function() { return 0; }
@@ -50,5 +50,5 @@ var descriptor = {blocks: []}; ScratchExtensions.register('MFD Complete Extensio
 	}; 
 
 	ScratchExtensions.register(extName, descriptor, ext); //All the titles begin with "MFD:" in case other extensions with similar names are also used
-	extMessage += "
+	MFD.loadExtension(extName);
 })({});
