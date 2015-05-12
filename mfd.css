@@ -1,3 +1,14 @@
+#scratch
+{
+	z-index: 1;
+}
+
 #mfd-menu
 {
+	position: absolute;
+	top: 0px;
+	left: 242px;
+	height: 28px;
+	color: #ffffff;
+	z-index: 2;	
 }

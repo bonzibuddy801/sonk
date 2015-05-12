@@ -9,11 +9,11 @@ var MFD =
 
 	createMenu: function() //Creates the MFD menu, which allows for loading extensions & other functions (e.g. create arrays when array extension loaded)
 	{
-		var menu = document.createElement("div");
+		var menu = document.createElement('span');
 		menu.id = 'mfd-menu';
 		menu.appendChild(document.createTextNode('MFD'));
 		document.body.appendChild(menu);
-	}
+	},
 	initialize: function() //initializes extension
 	{
 		var s = document.createElement("link");
@@ -23,7 +23,7 @@ var MFD =
 		document.head.appendChild(s);
 		
 		createMenu();
-	}
+	},
 
 
 
@@ -49,7 +49,7 @@ var MFD =
 		this.message = newMsg;
 	},
 	loadExtension: function(name) { this.loadedExtensions[this.loadedExtensions.length] = name; this.updateMessage(); },
-	unloadExtension: function(name) { for(var i = 0; i < this.loadedExtensions.length; i++) { if(this.loadedExtensions[i] == name) { this.loadedExtensions[i] = "unloaded"; } } this.updateMessage(); },
+	unloadExtension: function(name) { for(var i = 0; i < this.loadedExtensions.length; i++) { if(this.loadedExtensions[i] == name) { this.loadedExtensions[i] = "unloaded"; } } this.updateMessage(); }
 
 };
 
