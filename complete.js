@@ -10,7 +10,7 @@ var MFD =
 	createMenu: function() //Creates the MFD menu, which allows for loading extensions & other functions (e.g. create arrays when array extension loaded)
 	{
 		var menu = document.createElement('span');
-		menu.id = 'mfd-menu';
+		menu.setAttribute('id', 'mfd-menu');
 		menu.appendChild(document.createTextNode('MFD'));
 		document.body.appendChild(menu);
 	},
@@ -22,7 +22,7 @@ var MFD =
 		s.setAttribute('href', 'http://themonsterfromthedeep.github.io/scratch-extensions/mfd.css');
 		document.head.appendChild(s);
 		
-		createMenu();
+		this.createMenu();
 	},
 
 
