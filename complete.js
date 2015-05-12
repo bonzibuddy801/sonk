@@ -55,7 +55,7 @@ var MFD =
 
 (function(ext) { ext._shutdown = function() {};
 ext._getStatus = function() { return {status: MFD.status, msg: MFD.message }; }; //This extension is essentially a blank extension built in order to provide the text seperator
-var descriptor = {blocks: []}; ScratchExtensions.register('MFD Complete Extension', descriptor, ext); })({});
+var descriptor = {blocks: []}; ScratchExtensions.register('MFD Complete Extension', descriptor, ext); MFD.initialize(); })({});
 
 
 
