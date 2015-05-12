@@ -6,6 +6,27 @@ var MFD =
 	loadedExtensions: [],
 	message: "No loaded extensions",
 	status: 0,
+
+	createMenu: function() //Creates the MFD menu, which allows for loading extensions & other functions (e.g. create arrays when array extension loaded)
+	{
+		var menu = document.createElement("div");
+		menu.id = 'mfd-menu';
+		menu.appendChild(document.createTextNode('MFD'));
+		document.body.appendChild(menu);
+	}
+	initialize: function() //initializes extension
+	{
+		var s = document.createElement("link");
+		s.setAttribute("rel", "stylesheet");
+		s.setAttribute('type', 'text/css');
+		s.setAttribute('href', 'http://themonsterfromthedeep.github.io/scratch-extensions/mfd.css');
+		document.head.appendChild(s);
+		
+		createMenu();
+	}
+
+
+
 	updateMessage: function() { 
 		var newMsg = "No loaded extensions";
 		this.status = 0;
@@ -28,7 +49,8 @@ var MFD =
 		this.message = newMsg;
 	},
 	loadExtension: function(name) { this.loadedExtensions[this.loadedExtensions.length] = name; this.updateMessage(); },
-	unloadExtension: function(name) { for(var i = 0; i < this.loadedExtensions.length; i++) { if(this.loadedExtensions[i] == name) { this.loadedExtensions[i] = "unloaded"; } } this.updateMessage(); }
+	unloadExtension: function(name) { for(var i = 0; i < this.loadedExtensions.length; i++) { if(this.loadedExtensions[i] == name) { this.loadedExtensions[i] = "unloaded"; } } this.updateMessage(); },
+
 };
 
 (function(ext) { ext._shutdown = function() {};
@@ -39,14 +61,16 @@ var descriptor = {blocks: []}; ScratchExtensions.register('MFD Complete Extensio
 
 //MFD: Internetting
 //Includes functions for HTTP requests & linking to other projects
-(function(ext) { 
+//Not ready for deployment yet
+
+function MFDInternetting() { 
 	var extName = 'MFD: Internetting';
 	ext._shutdown = function() { MFD.unloadExtension(extName); };
 	ext._getStatus = function() { return {status: 2, msg: 'Ready'}; };
 
 	var confirmWindowOpen = false;
 
-	var myCSS="#scratch { z-index: 0; } #MFDConfirmationContainer { position: absolute; top: 0px; left: 0px; z-index: 2; width: 100%; height: 100%; } #MFDConfirmationWindow { width: 600px; padding: 6px 20px; background-color: #fff; border: solid #fff 1px; border-radius: 10px; -moz-border-radius: 10px; -webkit-border-radius: 10px; margin: 10px auto 0 auto; }";
+	var myCSS="#scratch { z-index: 0; } #MFDConfirmationContainer { position: absolute; top: 0px; left: 0px; z-index: 2; width: 100%; height: 100%; } #MFDConfirmationWindow { width: 600px; padding: 6px 20px; background-color: #fff; border: solid #fff 1px; margin: 10px auto 0 auto; }";
 
 	function generateExtraCSS()
 	{
@@ -68,6 +92,7 @@ var descriptor = {blocks: []}; ScratchExtensions.register('MFD Complete Extensio
 		var w = document.createElement("div"); //Create the window
 		w.setAttribute("id", "MFDConfirmationWindow");
 
+
 		var image = document.createElement("img"); //Create a preview image of the project
 		image.setAttribute("src", imgURL);
 		w.appendChild(image);
@@ -76,8 +101,9 @@ var descriptor = {blocks: []}; ScratchExtensions.register('MFD Complete Extensio
 		link.setAttribute("href", projectURL);
 		w.appendChild(link);
 
-		con.appendChild(w);
+		beginRequest("GET", "http://scratch.mit.edu/api/v1/project/" + id + "/?format=json", windowReady(con, w));
 	}}
+
 
 	ext.openProject = function(id)
 	{
@@ -93,4 +119,4 @@ var descriptor = {blocks: []}; ScratchExtensions.register('MFD Complete Extensio
 	ScratchExtensions.register(extName, descriptor, ext); //All the titles begin with "MFD:" in case other extensions with similar names are also used
 	MFD.loadExtension(extName);
 	generateExtraCSS();
-})({});
+}
