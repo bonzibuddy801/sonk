@@ -3,6 +3,11 @@
 (function(ext) {
     var reporters = [];
 
+    function addReporter(name)
+    {
+        reporters['r-' + name] = { status: false, callback: '', value:'' };
+    }
+
     // Cleanup function when the extension is unloaded
     ext._shutdown = function() {};
 
@@ -14,17 +19,29 @@
 
     ext.addRep = function(name)
     {
-        reporters[name] = false;
+        addReporter(name);
     }
 
     ext.hatRep = function(name)
     {
-        return reporters[name];
+        return reporters['r' + name].status;
     }
 
-    ext.runRep = function(name)
+    ext.runRep = function(name,callback)
     {
-        reporters[name] = true;
+        rname = 'r-' + name;
+        reporters[rname].callback = function()
+        {
+            callback(reporters[rname].value);
+            reporters[rname].callback = '';
+        };
+        reporters[rname].status = true;
+    }
+
+    ext.returnVal(name, value) = function
+    {
+        reporters['r-' + name].status = false;
+        reporters['r-' + name].value = value;
     }
 
     // Block and block menu descriptions
@@ -32,7 +49,8 @@
         blocks: [
             ['r', 'add reporter %s', 'addRep'],
             ['h', 'reporter %s', 'hatRep'],
-            ['r', 'run reporter %s', 'runRep'],
+            ['R', 'run reporter %s', 'runRep'],
+            [' ', 'return %s for %s', 'returnVal'],
         ]
     };
 
