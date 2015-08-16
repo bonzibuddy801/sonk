@@ -38,7 +38,7 @@
         reporters[rname].status = true;
     }
 
-    ext.returnVal(name, value) = function
+    ext.returnVal = function(name, value)
     {
         reporters['r-' + name].status = false;
         reporters['r-' + name].value = value;
