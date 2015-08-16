@@ -42,6 +42,7 @@
     {
         reporters['r-' + name].status = false;
         reporters['r-' + name].value = value;
+	reporters['r-' + name].callback();
     }
 
     // Block and block menu descriptions
