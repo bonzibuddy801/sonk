@@ -1,8 +1,7 @@
 //themonsterfromthedeep.github.io/scratch-extensions/custom-reporters/script.js
 
+var reporters = {};
 (function(ext) {
-    var reporters = [];
-
     function addReporter(name)
     {
         reporters['r-' + name] = { status: false, callback: '', value:'' };
@@ -24,25 +23,32 @@
 
     ext.hatRep = function(name)
     {
-        return reporters['r' + name].status;
+        if(reporters['r-' + name].status === true)
+        {
+            return true;
+            reporters['r-' + name].status = false;
+        }
+        return false;
     }
 
     ext.runRep = function(name,callback)
     {
-        rname = 'r-' + name;
+        var rname = 'r-' + name;
         reporters[rname].callback = function()
         {
+            console.log('success');
             callback(reporters[rname].value);
             reporters[rname].callback = '';
         };
         reporters[rname].status = true;
     }
 
-    ext.returnVal = function(name, value)
+    ext.returnVal = function(value, name)
     {
+        console.log('returning...');
         reporters['r-' + name].status = false;
         reporters['r-' + name].value = value;
-	reporters['r-' + name].callback();
+        reporters['r-' + name].callback();
     }
 
     // Block and block menu descriptions
