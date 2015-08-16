@@ -2,10 +2,6 @@
 
 var reporters = {};
 (function(ext) {
-    function addReporter(name)
-    {
-        reporters['r-' + name] = { status: false, callback: '', value:'' };
-    }
 
     // Cleanup function when the extension is unloaded
     ext._shutdown = function() {};
@@ -21,45 +17,53 @@ var reporters = {};
         addReporter(name);
     }
 
-    ext.hatRep = function(name)
-    {
-        if(reporters['r-' + name].status === true)
-        {
-            return true;
-            reporters['r-' + name].status = false;
-        }
-        return false;
-    }
-
-    ext.runRep = function(name,callback)
-    {
-        var rname = 'r-' + name;
-        reporters[rname].callback = function()
-        {
-            console.log('success');
-            callback(reporters[rname].value);
-            reporters[rname].callback = '';
-        };
-        reporters[rname].status = true;
-    }
-
-    ext.returnVal = function(value, name)
-    {
-        console.log('returning...');
-        reporters['r-' + name].status = false;
-        reporters['r-' + name].value = value;
-        reporters['r-' + name].callback();
-    }
-
     // Block and block menu descriptions
     var descriptor = {
         blocks: [
             ['r', 'add reporter %s', 'addRep'],
-            ['h', 'reporter %s', 'hatRep'],
-            ['R', 'run reporter %s', 'runRep'],
-            [' ', 'return %s for %s', 'returnVal'],
         ]
     };
+
+    function addBlock(data)
+    {
+        descriptor.blocks[descriptor.blocks.length] = data;
+    }
+
+    function addReporter(name)
+    {
+        reporters['r-' + name] = { status: false, callback: '', value:'' };
+        addBlock(['h', 'define $' + name, 'defr_' + name]);
+        addBlock(['R', '$' + name, 'runr_' + name]);
+        addBlock([' ', '$' + name + ': return %s', 'retr_' + name]);
+        ext['runr_' + name] = function(callback)
+        {
+            var rname = 'r-' + name;
+            reporters[rname].callback = function()
+            {
+                callback(reporters[rname].value);
+                reporters[rname].callback = '';
+            };
+            reporters[rname].status = true;
+        }
+        ext['defr_' + name] = function()
+        {
+            if(reporters['r-' + name].status === true)
+            {
+                return true;
+                reporters['r-' + name].status = false;
+            }
+            return false;
+        }
+        ext['retr_' + name] = function(value)
+        {
+            reporters['r-' + name].status = false;
+            reporters['r-' + name].value = value;
+            reporters['r-' + name].callback();
+        }
+	ScratchExtensions.unregister('Custom Reporters');
+	ScratchExtensions.register('Custom Reporters', descriptor, ext);
+    }
+
 
     // Register the extension
     ScratchExtensions.register('Custom Reporters', descriptor, ext);
