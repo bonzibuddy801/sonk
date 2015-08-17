@@ -34,7 +34,9 @@ var reporters = {};
     function generateButton()
     {
         var myStyle = document.createElement('style');
-        myStyle.appendChild(document.createTextNode('#cr-ext-button { height:28px; z-index:1; background-color: #9c9ea2; position: absolute; top: 0px; left: 560px; padding: 0px 5px; font-family: sans-serif; font-size: 18px; color: #000; } #cr-ext-button:hover { background-color: #aaacb0; } #scratch { z-index: 0; !important }'));
+        var color = (location.href.contains('scratchx.org')) ? '30485f' : '9c9ea2';
+        var highlight = (location.href.contains('scratchx.org')) ? '39536b' : 'aaacb0';
+        myStyle.appendChild(document.createTextNode('#cr-ext-button { line-height: 1.5; text-shadow: none; height:28px; z-index:1; background-color: #' + color + '; position: absolute; top: 0px; left: 560px; padding: 0px 5px; font-family: sans-serif; font-size: 18px; color: #000; } #cr-ext-button:hover { background-color: #' + highlight + '; } #scratch { z-index: 0; !important }'));
         document.head.appendChild(myStyle);
 
         var myDiv = document.createElement('div');
@@ -65,7 +67,7 @@ var reporters = {};
         };
     }
 
-    function createParam(norm_name, use_name, name)
+    function createParam(norm_name, use_name, name, type)
     {
         var param = {
             value: '',
@@ -79,7 +81,7 @@ var reporters = {};
             }
         };
 
-        addBlock(['r',name + ' of ' + norm_name,'argr_' + use_name + '_' + name]);
+        if(type == 'bool') { addBlock(['b',name + ' of ' + norm_name,'argr_' + use_name + '_' + name]); } else { addBlock(['r',name + ' of ' + norm_name,'argr_' + use_name + '_' + name]); }
         ext['argr_' + use_name + '_' + name] = function() { return param.read(); };
 
         return param;
@@ -125,7 +127,7 @@ var reporters = {};
         use_name = generateUseName(title);
         for(var i = 0; i < _params.length; i++)
         {
-            _params[i] = createParam(norm_name, use_name, _params[i].text);
+            _params[i] = createParam(norm_name, use_name, _params[i].text, _params[i].type);
         }
         var reporter = {
             name: norm_name,
