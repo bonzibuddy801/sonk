@@ -14,7 +14,9 @@ var reporters = {};
 
     ext.addRep = function(name)
     {
-        createReporter([frag('label',name)]);
+        createReporter([frag('label',name),frag('string','mystring'),frag('number','mynumber'),frag('bool','myboolean')]);
+        //createParam('myblock','myparam');
+        //refreshExt();
     }
 
     // Block and block menu descriptions
@@ -43,78 +45,73 @@ var reporters = {};
         };
     }
 
-    function createParam(norm_name, name)
+    function createParam(norm_name, use_name, name)
     {
-    }
-
-    function createReporterObject(n_name, f_name, param_count)
-    {
-        var reporter = {
-            def: function()
+        var param = {
+            value: '',
+            read: function()
             {
-                if(this.status === true)
-                {
-                    this.status = false;
-                    return true;
-                }
-                return false;
+                return this.value;
             },
-            call: function()
-            {
-                console.log('--Begin call--');
-                console.log(this.status);
-                console.log(arguments[0]);
-                this.callback = arguments[this.paramCount];
-                this.ready = function()
-                {
-                    console.log('ready');
-                    console.log(this.callback);
-                    console.log(this.value);
-                    this.callback(this.value);
-                    this.ready = function() {};
-                }
-                this.status = true;
-            },
-            ret: function(val)
+            write: function(val)
             {
                 this.value = val;
-                this.ready();
             }
         };
-        reporter.name = n_name;
-        reporter.blockString = f_name;
-        reporter.paramCount = param_count;
-        reporter.ready = function() {};
-        reporter.callback = function() {};
-        reporter.value = '';
-        reporter.status = false;
-        return reporter;
+
+        addBlock(['r',name + ' of ' + norm_name,'argr_' + use_name + '_' + name]);
+        ext['argr_' + use_name + '_' + name] = function() { return param.read(); };
+
+        return param;
+    }
+
+    function generateUseName(norm_name)
+    {
+        var dict = [' ','!','@','#','$','%','^','&','*','(',')','-','_','+','=','[',']','{','}',':',';','"',"'",'<','>',',','.','?','/','|','\\','~','`'];
+        var final = '';
+        for(var i = 0; i < norm_name.length; i++)
+        {
+            var c = true;
+            for(var j = 0; j < dict.length; j++)
+            {
+                if(norm_name.charAt(i) == dict[j]) { final += '_' + j; c = false; }
+            }
+            if(c) { final += norm_name.charAt(i); }
+        }
+        return final;
     }
 
     function createReporter(frags)
     {
+        var use_name = ''; //Stores the name used in things
+        var title = ''; //Stores base name for use in return block
         var norm_name = ''; //Stores the name used in all but the reporter block
         var func_name = ''; //Stores the name used in the reporter - includes inputs
 
         var param_count = 0;
-        var params = [];
+        var _params = [];
         for(var i = 0; i < frags.length; i++)
         {
-            if(frags[i].type == 'label') { norm_name += frags[i].text; func_name += frags[i].text; }
+            if(frags[i].type == 'label') { norm_name += frags[i].text; func_name += frags[i].text; title += frags[i].text; }
             else
             {
-                norm_name += ' () ';
-                if(frags[i].type == 'string') { func_name += '%s'; }
-                if(frags[i].type == 'number') { func_name += '%n'; }
-                if(frags[i].type == 'bool') { func_name += '%b'; }
+                if(frags[i].type == 'string') { func_name += '%s'; title += ' [' + frags[i].text + '] '; }
+                if(frags[i].type == 'number') { func_name += '%n'; title += ' (' + frags[i].text + ') '; }
+                if(frags[i].type == 'bool') { func_name += '%b'; title += ' <' + frags[i].text + '> '; }
                 param_count++;
-                params[params.length] = frags[i];
+                _params[_params.length] = frags[i];
             }
+        }
+        use_name = generateUseName(title);
+        for(var i = 0; i < _params.length; i++)
+        {
+            _params[i] = createParam(norm_name, use_name, _params[i].text);
         }
         var reporter = {
             name: norm_name,
             blockString: func_name,
             paramCount: param_count,
+            params: _params,
             ready: function() {},
             callback: function() {},
             value: '',
@@ -130,6 +127,10 @@ var reporters = {};
             },
             call: function(args)
             {
+                for(var i = 0; i < this.paramCount; i++)
+                {
+                    this.params[i].write(args[i]);
+                }
                 this.callback = args[this.paramCount];
                 this.ready = function()
                 {
@@ -144,15 +145,14 @@ var reporters = {};
                 this.ready();
             },
         };
-        //var reporter = createReporterObject(norm_name,func_name,param_count);
-        reporters[norm_name] = reporter;
+        reporters[use_name] = reporter;
 
-        addBlock(['h','define ' + norm_name,'defr_' + norm_name]);
-        addBlock(['R',func_name,'callr_' + norm_name]);
-        addBlock([' ','return %s for '+norm_name,'retr_' + norm_name]);
-        ext['defr_' + norm_name] = function() { return reporter.def(); };
-        ext['callr_' + norm_name] = function() { reporter.call(arguments); };
-        ext['retr_' + norm_name] = function(val) { reporter.ret(val); };
+        addBlock(['h','define ' + title,'defr_' + use_name]);
+        addBlock(['R',func_name,'callr_' + use_name]);
+        addBlock([' ','return %s for '+norm_name,'retr_' + use_name]);
+        ext['defr_' + use_name] = function() { return reporter.def(); };
+        ext['callr_' + use_name] = function() { reporter.call(arguments); };
+        ext['retr_' + use_name] = function(val) { reporter.ret(val); };
 
         refreshExt();
     }
