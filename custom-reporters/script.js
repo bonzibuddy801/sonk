@@ -26,6 +26,26 @@ var reporters = {};
         ]
     };
 
+    function newReporter()
+    {
+        alert('you are making a new reporter');
+    }
+
+    function generateButton()
+    {
+        var myStyle = document.createElement('style');
+        myStyle.appendChild(document.createTextNode('#cr-ext-button { height:28px; z-index:1; background-color: #9c9ea2; position: absolute; top: 0px; left: 560px; padding: 0px 5px; font-family: sans-serif; font-size: 18px; color: #000; } #cr-ext-button:hover { background-color: #aaacb0; } #scratch { z-index: 0; !important }'));
+        document.head.appendChild(myStyle);
+
+        var myDiv = document.createElement('div');
+        myDiv.appendChild(document.createTextNode('Create Custom Reporter'));
+        myDiv.setAttribute('id','cr-ext-button');
+
+        myDiv.addEventListener('click',function() { newReporter(); },false);
+
+        document.body.appendChild(myDiv);        
+    }
+
     function refreshExt()
     {
         ScratchExtensions.unregister('Custom Reporters');
@@ -159,5 +179,6 @@ var reporters = {};
 
 
     // Register the extension
+    generateButton();
     ScratchExtensions.register('Custom Reporters', descriptor, ext);
 })({});
