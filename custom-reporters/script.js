@@ -14,54 +14,147 @@ var reporters = {};
 
     ext.addRep = function(name)
     {
-        addReporter(name);
+        createReporter([frag('label',name)]);
     }
 
     // Block and block menu descriptions
     var descriptor = {
         blocks: [
-            ['r', 'add reporter %s', 'addRep'],
+            ['r', 'add reporter %s', 'addRep']
         ]
     };
+
+    function refreshExt()
+    {
+        ScratchExtensions.unregister('Custom Reporters');
+        ScratchExtensions.register('Custom Reporters', descriptor, ext);
+    }
 
     function addBlock(data)
     {
         descriptor.blocks[descriptor.blocks.length] = data;
     }
 
-    function addReporter(name)
+    function frag(type, text)
     {
-        reporters['r-' + name] = { status: false, callback: '', value:'' };
-        addBlock(['h', 'define $' + name, 'defr_' + name]);
-        addBlock(['R', '$' + name, 'runr_' + name]);
-        addBlock([' ', '$' + name + ': return %s', 'retr_' + name]);
-        ext['runr_' + name] = function(callback)
-        {
-            var rname = 'r-' + name;
-            reporters[rname].callback = function()
+        return {
+            type: type,
+            text: text
+        };
+    }
+
+    function createParam(norm_name, name)
+    {
+    }
+
+    function createReporterObject(n_name, f_name, param_count)
+    {
+        var reporter = {
+            def: function()
             {
-                callback(reporters[rname].value);
-                reporters[rname].callback = '';
-            };
-            reporters[rname].status = true;
-        }
-        ext['defr_' + name] = function()
-        {
-            if(reporters['r-' + name].status === true)
+                if(this.status === true)
+                {
+                    this.status = false;
+                    return true;
+                }
+                return false;
+            },
+            call: function()
             {
-                return true;
-                reporters['r-' + name].status = false;
+                console.log('--Begin call--');
+                console.log(this.status);
+                console.log(arguments[0]);
+                this.callback = arguments[this.paramCount];
+                this.ready = function()
+                {
+                    console.log('ready');
+                    console.log(this.callback);
+                    console.log(this.value);
+                    this.callback(this.value);
+                    this.ready = function() {};
+                }
+                this.status = true;
+            },
+            ret: function(val)
+            {
+                this.value = val;
+                this.ready();
             }
-            return false;
-        }
-        ext['retr_' + name] = function(value)
+        };
+        reporter.name = n_name;
+        reporter.blockString = f_name;
+        reporter.paramCount = param_count;
+        reporter.ready = function() {};
+        reporter.callback = function() {};
+        reporter.value = '';
+        reporter.status = false;
+        return reporter;
+    }
+
+    function createReporter(frags)
+    {
+        var norm_name = ''; //Stores the name used in all but the reporter block
+        var func_name = ''; //Stores the name used in the reporter - includes inputs
+
+        var param_count = 0;
+        var params = [];
+        for(var i = 0; i < frags.length; i++)
         {
-            reporters['r-' + name].status = false;
-            reporters['r-' + name].value = value;
-            reporters['r-' + name].callback();
+            if(frags[i].type == 'label') { norm_name += frags[i].text; func_name += frags[i].text; }
+            else
+            {
+                norm_name += ' () ';
+                if(frags[i].type == 'string') { func_name += '%s'; }
+                if(frags[i].type == 'number') { func_name += '%n'; }
+                if(frags[i].type == 'bool') { func_name += '%b'; }
+                param_count++;
+                params[params.length] = frags[i];
+            }
         }
-	ScratchExtensions.unregister('Custom Reporters');
-	ScratchExtensions.register('Custom Reporters', descriptor, ext);
+        var reporter = {
+            name: norm_name,
+            blockString: func_name,
+            paramCount: param_count,
+            ready: function() {},
+            callback: function() {},
+            value: '',
+            status: false,
+            def: function()
+            {
+                if(this.status === true)
+                {
+                    this.status = false;
+                    return true;
+                }
+                return false;
+            },
+            call: function(args)
+            {
+                this.callback = args[this.paramCount];
+                this.ready = function()
+                {
+                    this.callback(this.value);
+                    this.ready = function() {};
+                }
+                this.status = true;
+            },
+            ret: function(val)
+            {
+                this.value = val;
+                this.ready();
+            },
+        };
+        //var reporter = createReporterObject(norm_name,func_name,param_count);
+        reporters[norm_name] = reporter;
+
+        addBlock(['h','define ' + norm_name,'defr_' + norm_name]);
+        addBlock(['R',func_name,'callr_' + norm_name]);
+        addBlock([' ','return %s for '+norm_name,'retr_' + norm_name]);
+        ext['defr_' + norm_name] = function() { return reporter.def(); };
+        ext['callr_' + norm_name] = function() { reporter.call(arguments); };
+        ext['retr_' + norm_name] = function(val) { reporter.ret(val); };
+
+        refreshExt();
     }
 
 
