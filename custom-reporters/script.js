@@ -19,12 +19,25 @@ var reporters = {};
         //refreshExt();
     }
 
+    var contains = function(s1, s2)
+    {
+        var i = 0;
+        var j = 0;
+        while(i < s1.length)
+        {
+            if(s1.charAt(i) == s2.charAt(j)) { j++; if(j == s2.length) { return true; } } else { j = 0; }
+            i++;
+        }
+        if(j == s2.length) { return true; } else { return false; }
+    }
+
     // Block and block menu descriptions
     var descriptor = {
         blocks: [
             ['r', 'add reporter %s', 'addRep']
         ]
     };
+
 
     function newReporter()
     {
@@ -33,9 +46,11 @@ var reporters = {};
 
     function generateButton()
     {
+        var loc = 'scratchx.org';
+        if(location.href) { loc = location.href; }
         var myStyle = document.createElement('style');
-        var color = (location.href.contains('scratchx.org')) ? '30485f' : '9c9ea2';
-        var highlight = (location.href.contains('scratchx.org')) ? '39536b' : 'aaacb0';
+        var color = (contains(loc,'scratchx.org')) ? '30485f' : '9c9ea2';
+        var highlight = (contains(loc,'scratchx.org')) ? '39536b' : 'aaacb0';
         myStyle.appendChild(document.createTextNode('#cr-ext-button { line-height: 1.5; text-shadow: none; height:28px; z-index:1; background-color: #' + color + '; position: absolute; top: 0px; left: 560px; padding: 0px 5px; font-family: sans-serif; font-size: 18px; color: #000; } #cr-ext-button:hover { background-color: #' + highlight + '; } #scratch { z-index: 0; !important }'));
         document.head.appendChild(myStyle);
 
