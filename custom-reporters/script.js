@@ -12,11 +12,75 @@ var reporters = {};
         return {status: 2, msg: 'Ready'};
     };
 
-    ext.addRep = function(name)
+    ext.addRep = function(data)
     {
-        createReporter([frag('label',name),frag('string','mystring'),frag('number','mynumber'),frag('bool','myboolean')]);
-        //createParam('myblock','myparam');
-        //refreshExt();
+        //createReporter([frag('label',name),frag('string','mystring'),frag('number','mynumber'),frag('bool','myboolean')]);
+        var frags = [];
+        var next = "";
+        var i = 0;
+        while(i < data.length)
+        {
+            if(data.charAt(i) == '_')
+            {
+                i++;
+                next += data.charAt(i);
+                i++;
+            }
+            else {
+            if(data.charAt(i) == '(')
+            {
+                frags[frags.length] = frag('label',next);
+                next = "";
+                i++;
+                while(data.charAt(i) != ')' && i < data.length)
+                {
+                    next += data.charAt(i);
+                    i++;
+                }
+                frags[frags.length] = frag('number',next);
+                next = "";
+                i++;
+            }
+            if(data.charAt(i) == '<')
+            {
+                frags[frags.length] = frag('label',next);
+                next = "";
+                i++;
+                while(data.charAt(i) != '>' && i < data.length)
+                {
+                    next += data.charAt(i);
+                    i++;
+                }
+                frags[frags.length] = frag('bool',next);
+                next = "";
+                i++;
+            }
+            if(data.charAt(i) == '[')
+            {
+                frags[frags.length] = frag('label',next);
+                next = "";
+                i++;
+                while(data.charAt(i) != ']' && i < data.length)
+                {
+                    next += data.charAt(i);
+                    i++;
+                }
+                frags[frags.length] = frag('string',next);
+                next = "";
+                i++;
+            }
+            if(i < data.length)
+            {
+                next += data.charAt(i);
+            }
+            i++;
+            }
+        }
+        if(next.length > 0)
+        {
+            frags[frags.length] = frag('label',next);
+        }
+        createReporter(frags);
     }
 
     var contains = function(s1, s2)
@@ -34,7 +98,7 @@ var reporters = {};
     // Block and block menu descriptions
     var descriptor = {
         blocks: [
-            ['r', 'add reporter %s', 'addRep']
+            [' ', 'reload reporter %s', 'addRep']
         ]
     };
 
@@ -144,6 +208,7 @@ var reporters = {};
         {
             _params[i] = createParam(norm_name, use_name, _params[i].text, _params[i].type);
         }
+
         var reporter = {
             name: norm_name,
             blockString: func_name,
