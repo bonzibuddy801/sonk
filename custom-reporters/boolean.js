@@ -252,7 +252,7 @@ var reporters = {};
 
         addBlock(['h','define ' + title,'defr_' + use_name]);
         addBlock(['b',func_name,'callr_' + use_name]);
-        addBlock([' ','return %b for '+norm_name,'retr_' + use_name]);
+        addBlock([' ','return %s for '+norm_name,'retr_' + use_name]);
         ext['defr_' + use_name] = function() { return reporter.def(); };
         ext['callr_' + use_name] = function() { reporter.call(arguments); };
         ext['retr_' + use_name] = function(val) { reporter.ret(val); };
